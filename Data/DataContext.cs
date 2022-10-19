@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using IdentityStart.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data
@@ -12,5 +13,6 @@ namespace Data
         }
 
         //Tables (Models)
+        public DbSet<UserModel>? Users { get; set; }
     }
 }
