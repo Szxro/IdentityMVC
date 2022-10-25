@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/IdentityStart.styles.css" asp-append-version="true" />
+    <!--Icons Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
@@ -50,6 +52,16 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <!--DatePicker JS-->
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(function(){
+            $("#datepicker").datepicker({
+                changeMonth:true,
+                changeYear:true,
+                yearRange:'1930:2022',
+                dateFormat:'yy-mm-dd'
+            })
+        })
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

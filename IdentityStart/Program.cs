@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Data;
 using Microsoft.AspNetCore.Identity;
+using IdentityStart.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using IdentityStart.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +15,10 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 // Add services to the container.
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DataContext>();
-
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+//HelperPart
+builder.Services.AddScoped<IHelperService, HelperService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -9,6 +9,7 @@ namespace IdentityStart.Models
     public class UserModel :  IdentityUser
     {
         //This Model is going to be added to the AspUser table
+
         public string Name { get; set; } = string.Empty;
 
         public int CountryCode { get; set; }
@@ -24,5 +25,7 @@ namespace IdentityStart.Models
         public DateTime BirthDate { get; set; }
         
         public bool State { get; set; }
+
+        //Some Fields must be added to not have an error. (IdentyUser)
     }
 }

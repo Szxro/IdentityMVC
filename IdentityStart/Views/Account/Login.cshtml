@@ -1,0 +1,53 @@
+﻿@using Models;
+@model AccessModel
+
+@{
+    ViewData["Title"] = "User Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>User Login</h1>
+<form asp-controller="Account" asp-action="Login" method="post" role="form">
+    <!--Email-->
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="UserName" class="col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+    </div>
+    <!--Password-->
+    <div class="form-group">
+        <label asp-for="Password" class="col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+    <!--Remember Me-->
+    <div class="form-check mt-3">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+            Remenber Me?
+        </label>
+    </div>
+   <div class="col-md-10">
+       <h3>Other Apps to Log in</h3>
+   </div>
+    <!--Submit Button-->
+    <div class="form-group mt-3">
+        <div class="col-md-10">
+            <button class="btn btn-success w-100" type="submit">Login <i class="bi bi-box-arrow-in-right"></i> </button>
+            <a asp-action="Register" class="text-primary">Dont have an account?</a>
+            <a class="text-danger" asp-action="ForgotPassword">Forgot password?</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+    } 

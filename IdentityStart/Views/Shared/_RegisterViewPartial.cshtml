@@ -1,8 +1,26 @@
-﻿<ul class="navbar-nav flex-grow-1 ">
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-    </li>
-</ul>
+﻿@using Microsoft.AspNetCore.Identity;
+
+@inject SignInManager<IdentityUser> _signIn
+@inject UserManager<IdentityUser> _manager
+
+    <ul class="navbar-nav flex-grow-1 ">
+    @if(_signIn.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="#">Hello,@_manager.GetUserName(User)</a>
+        </li>
+        <li class="nav-item">
+          <form id="logOut" method="post" class="form-inline" asp-controller="Account" asp-action="LogOut">
+              <button type="submit" class="btn btn-danger nav-link">LogOut</button>
+          </form>
+        </li>
+    }else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+        </li>
+    }
+    </ul>
