@@ -1,8 +1,4 @@
-﻿//using IdentityStart.Models.Common;
-//using Microsoft.AspNet.Identity.EntityFramework;
-
-
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace IdentityStart.Models
 {

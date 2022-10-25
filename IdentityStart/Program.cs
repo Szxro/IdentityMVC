@@ -19,6 +19,11 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 //HelperPart
 builder.Services.AddScoped<IHelperService, HelperService>();
+//To Redirect to the login page if the user is not authenticate 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = new PathString("/Account/Login");
+});
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

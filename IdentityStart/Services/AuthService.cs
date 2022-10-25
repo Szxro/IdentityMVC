@@ -26,10 +26,6 @@ namespace IdentityStart.Services
         }
         public async Task<UserModel> Register(RegisterModel request)
         {
-            //var validation = _actionContextAccessor.ActionContext.ModelState.IsValid;
-            //if (validation)
-            //{
-                //Creating the user if the form is valid
                 var user = new UserModel()
                 {
                     UserName = request.Name,
@@ -47,8 +43,6 @@ namespace IdentityStart.Services
                 //var result = await _manager.CreateAsync(user, request.Password);
 
                 return user;
-            //}
-            //return null;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace IdentityStart.Controllers
                 if (manager.Succeeded)
                 {
                     await _signIn.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return LocalRedirect("/Account/Login");
                 }
                 else
                 {
@@ -80,7 +80,7 @@ namespace IdentityStart.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return LocalRedirect("/Home/Privacy");
                 }
                 else 
                 {
@@ -98,7 +98,7 @@ namespace IdentityStart.Controllers
         public async Task<IActionResult> LogOut()
         {
             await _signIn.SignOutAsync();
-            return RedirectToAction("Index", "Home");   
+            return LocalRedirect("/Home/Index");
         }
     }
 }
