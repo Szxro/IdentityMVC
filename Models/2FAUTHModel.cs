@@ -14,5 +14,8 @@ namespace Models
 
         //Token for activate the 2FAUTH
         public string Token { get; set; } = string.Empty;
+
+        //For the qr Code
+        public string AuthCode { get; set; } = string.Empty;
     }
 }

@@ -1,23 +1,32 @@
 ﻿@using Models;
 @model _2FAUTHModel;
-<p>Please insert the token here</p>
-<p>@Model.Token</p>
+@{
+    ViewData["Title"] = "Autenticación de dos factores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<form method="post">
-    <input type="hidden" asp-for="Token"/>
-    <hr/>
+<p>Please insert the following code in your app fro authentication: <strong>@Model.Token</strong></p>
+<p>Or can scan the qr code</p>
+<div id="codigoQR">
+</div>
+
+<form asp-controller="Cuentas" asp-action="ActivarAutenticador" method="post">
+    <input type="hidden" asp-for="Token" />
+    <input type="hidden" asp-for="AuthCode" />
+    <hr />
     <div class="row">
         <div class="col-sm-7">
             <div class="col-md-12">
                 <label asp-for="Code"></label>
-                <input type="text" asp-for="Code" class ="form-control" placeholder="Write the code"/>
+                <input id="code" type="text" asp-for="Code" class="form-control" placeholder="Fill this with the code given by the app" />
                 <span asp-validation-for="Code" class="text-danger"></span>
+                <div class="text-danger" asp-validation-summary="All"></div>
             </div>
         </div>
-        <div class="row">
+        <div class="col-sm-12">
             <div class="col-sm-5">
-                <div class="col-sm-12 pt-4">
-                    <button type="submit" class="btn btn-primary mt-3">Send</button>
+                <div class="col-md-12 pt-4">
+                    <button type="submit" class="btn btn-primary mt-3">Send <i class="bi bi-box-arrow-in-right"></i></button>
                 </div>
             </div>
         </div>
@@ -26,6 +35,21 @@
 
 @section Scripts{
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="~/js/qrcode.min.js"></script>
+        <script type="text/javascript">
+                    var qr = "@Model.AuthCode"
+                    var qrcode = new QRCode("codigoQR", {
+                        text: qr,
+                        width: 328,
+                        height: 328,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                    window.onload = function(e) {
+                        document.getElementById("code").value = ""; 
+                    }
+        </script>
     }
-    } 
+    }

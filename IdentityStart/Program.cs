@@ -55,8 +55,9 @@ builder.Services.AddAuthentication().AddFacebook
     (
         options =>
         {
-            options.AppId = "App_Id";
-            options.AppSecret = "App_Secret";
+            //Obtainig values from the appsettings.json
+            options.AppId =builder.Configuration.GetValue<string>("facebook:app_id");
+            options.AppSecret = builder.Configuration.GetValue<string>("facebook:app_secret");
         }
     );
 
@@ -65,8 +66,8 @@ builder.Services.AddAuthentication().AddGoogle
     (   
         options =>
         {
-            options.ClientId = "client_id";
-            options.ClientSecret = "client_secret";
+            options.ClientId = builder.Configuration.GetValue<string>("google:client_id");
+            options.ClientSecret = builder.Configuration.GetValue<string>("google:client_secret");
         }
     );
 

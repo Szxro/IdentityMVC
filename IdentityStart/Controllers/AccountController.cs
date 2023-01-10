@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Models;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Encodings.Web;
 
 namespace IdentityStart.Controllers
 {
@@ -23,13 +24,15 @@ namespace IdentityStart.Controllers
         private readonly IHelperService _helper;
         private readonly IEmailSender _mail;
         private readonly IUrlServices _url;
+        private readonly UrlEncoder _urlEnconder;
         public AccountController(
             IAuthService service,
             SignInManager<IdentityUser> signIn, 
             UserManager<IdentityUser> manager,
             IHelperService helper,
             IEmailSender mail,
-            IUrlServices url
+            IUrlServices url,
+            UrlEncoder urlEncoder
             )
         {
             _service = service;
@@ -38,6 +41,7 @@ namespace IdentityStart.Controllers
             _helper = helper;
             _mail = mail;
             _url = url;
+            _urlEnconder = urlEncoder;
         }
 
         public IActionResult Index()
@@ -357,15 +361,18 @@ namespace IdentityStart.Controllers
 
         public async Task<IActionResult> ActivateTwoFactor()
         {
+            //formatUrl for the qrCode
+            string formatUrl = "otpauthL//totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
             //Obtaining the user by the claims
             var user = await _manager.GetUserAsync(User);
             //reseting the auth key
             await _manager.ResetAuthenticatorKeyAsync(user);
             //gettting the token for the 2FAUTH
             var token = await _manager.GetAuthenticatorKeyAsync(user);
+            //generating the url Auth
+            var urlAuth = string.Format(formatUrl, _urlEnconder.Encode("Auth_App"), _urlEnconder.Encode(user.Email), token);
 
-            var twoAuth = new _2FAUTHModel() { Token = token };
-
+            var twoAuth = new _2FAUTHModel() { Token = token,AuthCode = urlAuth };
             return View(twoAuth);
         }
 
@@ -386,15 +393,12 @@ namespace IdentityStart.Controllers
 
                 if (success)
                 {
-                    //enable the 2FACTOR
-                    await _manager.SetTwoFactorEnabledAsync(user, true);
-                }
-
-                if (!success)
-                {
                     ModelState.AddModelError(string.Empty, "The Two Factor Auth is invalid");
                     return View(request);
                 }
+                
+               //enable the 2FACTOR
+               await _manager.SetTwoFactorEnabledAsync(user, true);
             }
 
             return View(nameof(ConfirmTwoFactor));
